@@ -53,6 +53,23 @@ npm run dev
 
 ---
 
+## Run ChromaDB with Docker (Persistent)
+```bash
+docker run -d --rm --name chromadb \
+  -p 8000:8000 \
+  -v ./chroma:/chroma/chroma \
+  -e IS_PERSISTENT=TRUE \
+  -e ANONYMIZED_TELEMETRY=TRUE \
+  chromadb/chroma:0.6.3
+```
+
+Notes:
+- The database is persisted to `./chroma`.
+- API will be available at `http://localhost:8000`.
+- Ensure your `.env` points the backend to this host/port.
+
+---
+
 ## Environment Variables (.env)
 ```bash
 GOOGLE_API_KEY=your_gemini_api_key
