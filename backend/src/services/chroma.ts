@@ -1,12 +1,27 @@
 import { ChromaClient, Collection } from "chromadb";
-import { CHROMA_URL } from "../config";
+import { CHROMA_HOST, CHROMA_PORT, CHROMA_COLLECTION, CHROMA_RESET } from "../config";
 import { Message } from "../types";
 
-const client = new ChromaClient({ path: CHROMA_URL });
+const client = new ChromaClient({
+    host: CHROMA_HOST,
+    port: parseInt(CHROMA_PORT)
+});
+
 let collection: Collection;
 
 export async function initChroma() {
-    collection = await client.getOrCreateCollection({ name: "chat_history" });
+    if (CHROMA_RESET) {
+        try {
+            const existing = await client.getCollection({ name: CHROMA_COLLECTION });
+            if (existing) {
+                await client.deleteCollection({ name: CHROMA_COLLECTION });
+            }
+        } catch { }
+    }
+    collection = await client.getOrCreateCollection({
+        name: CHROMA_COLLECTION,
+        metadata: { embedding_dimension: 384 },
+    });
 }
 
 export async function addMessage(msg: Message) {

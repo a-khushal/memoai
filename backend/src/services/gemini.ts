@@ -1,16 +1,12 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 import { GOOGLE_API_KEY } from "../config";
+import { getEmbeddingFromService as getEmbedding } from "./embeddingService";
 
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 
-const embeddingModel = genAI.getGenerativeModel({ model: "embedding-001" });
-
 const chatModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export async function getEmbedding(text: string): Promise<number[]> {
-  const res = await embeddingModel.embedContent(text);
-  return res.embedding.values;
-}
+export { getEmbedding };
 
 export async function getChatResponse(context: string, message: string): Promise<string> {
   const prompt = `Context:\n${context}\n\nUser: ${message}\nAI:`;
