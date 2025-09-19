@@ -11,7 +11,7 @@ async function main() {
     app.use(bodyParser.json());
     app.use(router);
 
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
 main();
