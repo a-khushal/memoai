@@ -8,6 +8,7 @@ async function main() {
     await initChroma();
 
     const app = express();
+    app.use(express.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(router);
 
